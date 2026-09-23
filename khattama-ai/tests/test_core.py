@@ -1,4 +1,5 @@
 import io
+import json
 import unittest
 from core import align_words, normalize_deadline, parse_text, validate_extraction, export_docx
 
@@ -21,6 +22,34 @@ class DeadlineTests(unittest.TestCase):
 
 
 class AttributionTests(unittest.TestCase):
+    def test_literal_deadline_recovery_is_conservative_and_marked(self):
+        rows = parse_text('Тимур: Әлия, келісімшартты бүгін тексеріңіз.')
+        item = {'action': 'Келісімшартты тексеру', 'owner': 'Әлия', 'deadline_raw': None,
+                'evidence_ids': ['T0001'], 'note': ''}
+        result = validate_extraction({'summary': '', 'actions': [item]}, rows, '2026-09-23')
+        self.assertEqual(result['actions'][0]['deadline_raw'], 'бүгін')
+        self.assertEqual(result['actions'][0]['due_date'], '2026-09-23')
+        self.assertIn('Срок взят из реплики', result['actions'][0]['note'])
+        unknown = validate_extraction({'summary': '', 'actions': [item]}, rows)
+        self.assertEqual(unknown['actions'][0]['due_date'], '')
+        multiple = validate_extraction({'summary': '', 'actions': [item, item]}, rows, '2026-09-23')
+        self.assertEqual(multiple['actions'][0]['deadline_raw'], '')
+        conflicting = parse_text('Тимур: Әлия, бүгін немесе ертең келісімшартты тексеріңіз.')
+        result = validate_extraction({'summary': '', 'actions': [item]}, conflicting, '2026-09-23')
+        self.assertEqual(result['actions'][0]['deadline_raw'], '')
+
+    def test_numpy_asr_timestamps_can_be_exported_as_json(self):
+        import numpy as np
+        words = [{'start': np.float32(1), 'end': np.float32(2), 'text': ' Проверка'},
+                 {'start': np.float32(2), 'end': np.float32(3), 'text': ' экспорта'}]
+        turns = [{'start': 0, 'end': 4, 'speaker_id': 'A'},
+                 {'start': 0.9, 'end': 2.5, 'speaker_id': 'B'}]
+        rows = align_words(words, turns)
+        exported = json.loads(json.dumps(rows))
+        self.assertEqual(len(exported), 1)
+        self.assertIs(exported[0]['speaker_review'], True)
+        self.assertEqual(exported[0]['end'], 3)
+
     def test_word_speaker_overlap(self):
         words = [{'start': 1, 'end': 2, 'text': ' Задача'}, {'start': 3, 'end': 4, 'text': ' выполнена'}]
         turns = [{'start': 0, 'end': 2.5, 'speaker_id': 'A'}, {'start': 0.9, 'end': 1.6, 'speaker_id': 'B'}]

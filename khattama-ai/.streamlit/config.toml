@@ -1,5 +1,7 @@
 [browser]
 gatherUsageStats = false
+[client]
+toolbarMode = "minimal"
 [server]
 address = "127.0.0.1"
 port = 8501

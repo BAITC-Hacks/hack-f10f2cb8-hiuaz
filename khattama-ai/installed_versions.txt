@@ -1,4 +1,3 @@
-# CPython 3.9 / macOS 12 x86_64; Sherpa pin verified on macOS 12.7.6.
 altair==5.5.0
 attrs==26.1.0
 av==12.3.0
@@ -9,6 +8,7 @@ charset-normalizer==3.5.1
 click==8.1.8
 coloredlogs==15.0.1
 ctranslate2==4.6.1
+diskcache==5.6.3
 faster-whisper==1.1.1
 filelock==3.19.1
 flatbuffers==25.12.19
@@ -21,6 +21,7 @@ idna==3.20
 Jinja2==3.1.6
 jsonschema==4.25.1
 jsonschema-specifications==2025.9.1
+llama_cpp_python @ https://github.com/abetlen/llama-cpp-python/releases/download/v0.3.2/llama_cpp_python-0.3.2-cp39-cp39-macosx_10_9_x86_64.whl#sha256=228cc9a96575114970d9832dfd6d13a9be441e4dac31aeb2b26c856d4c7276ea
 lxml==6.1.3
 markdown-it-py==3.0.0
 MarkupSafe==3.0.3
@@ -44,9 +45,8 @@ referencing==0.36.2
 requests==2.32.5
 rich==13.9.4
 rpds-py==0.27.1
-setuptools==82.0.1
-# 1.12.40 bundles ONNX Runtime requiring a newer CoreML symbol.
-sherpa_onnx==1.10.46
+sherpa-onnx==1.10.46
+sherpa-onnx-core==1.12.40
 six==1.17.0
 smmap==5.0.3
 streamlit==1.40.2
@@ -60,4 +60,3 @@ typing_extensions==4.16.0
 tzdata==2026.4
 urllib3==1.26.20
 watchdog==6.0.0
-diskcache==5.6.3

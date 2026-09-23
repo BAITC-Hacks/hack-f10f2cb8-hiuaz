@@ -1,4 +1,6 @@
 .venv/
+.local-validation/
+data/
 models/
 __pycache__/
 *.pyc
