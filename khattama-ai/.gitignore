@@ -1,0 +1,11 @@
+.venv/
+models/
+__pycache__/
+*.pyc
+*.mp3
+*.mp4
+*.wav
+*.pdf
+*.docx
+*.log
+!requirements.txt

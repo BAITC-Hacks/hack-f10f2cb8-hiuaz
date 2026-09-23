@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "title": "Проверки извлечения поручений для Хаттама AI",
+  "basis": "Ручная разметка по предоставленным PDF; аудиофайлы проверены только по метаданным.",
+  "audio_transcribed": false,
+  "audio_pdf_alignment_verified": false,
+  "usage": "Передавать системе только аудио либо текст реплик со страниц 1-3. Страницу 4 с готовыми ответами использовать отдельно для сравнения. Этот файл не является результатом распознавания речи.",
+  "evaluation_rules": [
+    "Число строк в готовых таблицах не доказывает полноту извлечения. Дополнительные обязательства проверять по диалогу.",
+    "Сопоставлять задачи по смыслу, исполнителю и сроку; учитывать объединение и разделение составных поручений.",
+    "Отдельно считать пропуски, неподтвержденные задачи, ошибки ответственного и ошибки срока.",
+    "Не подставлять текущую дату вместо даты совещания и не выводить год из даты загрузки файла.",
+    "При отсутствии даты сохранять исходное значение срока; нормализованную дату оставлять null.",
+    "Временные метки и соответствие голосов именам заполнять только после обработки аудио.",
+    "Качество русского, казахского и смешанной речи оценивать отдельно. Эти PDF подтверждают только русский текст."
+  ],
+  "meetings": [
+    {
+      "id": "meeting_1",
+      "pdf_filename": "Протокол_совещания№1.docx.pdf",
+      "audio_filename": "Совещание №1.mp3",
+      "pdf_pages": 4,
+      "transcript_pages": [1, 2, 3],
+      "reference_table_page": 4,
+      "audio_metadata": {"duration_seconds": 274.296, "sample_rate_hz": 48000, "channels": 1},
+      "meeting_date": null,
+      "meeting_timezone": null,
+      "pdf_text_languages": ["ru"],
+      "audio_languages_verified": false,
+      "named_speakers_in_pdf": ["Асхат Ерланович", "Гульмира Сериковна", "Тимур Болатович", "Айнур Каировна", "Нурлан Сагатович"],
+      "reference_summary_row_count": 10,
+      "reference_rows": [
+        {"id": "m1_01", "action": "Сформировать общий подход к закупке сырья для химических предприятий группы.", "owner": "Гульмира Сериковна", "owner_type": "person", "deadline_text": "15 октября", "deadline_type": "date_without_year", "due_date": null, "evidence_pages": [1, 4]},
+        {"id": "m1_02", "action": "Встретиться с проектным институтом и утвердить сроки поставки катализаторов.", "owner": "Айнур Каировна", "owner_type": "person", "deadline_text": "26 сентября", "deadline_type": "date_without_year", "due_date": null, "evidence_pages": [1, 4]},
+        {"id": "m1_03", "action": "Определить финансирование модернизации предприятия в Павлодарской области.", "owner": "Тимур Болатович", "owner_type": "person", "deadline_text": "30 сентября", "deadline_type": "date_without_year", "due_date": null, "evidence_pages": [1, 4]},
+        {"id": "m1_04", "action": "Проверить договорные основания для применения штрафов.", "owner": "Юридический департамент", "owner_type": "department", "deadline_text": "30 сентября", "deadline_type": "date_without_year", "due_date": null, "evidence_pages": [1, 4]},
+        {"id": "m1_05", "action": "Обобщить результаты по химическому направлению для следующей встречи.", "owner": "Гульмира Сериковна", "owner_type": "person", "deadline_text": "20 октября", "deadline_type": "date_without_year", "due_date": null, "evidence_pages": [1, 4]},
+        {"id": "m1_06", "action": "Выяснить причины срыва поверки подрядчиком и сообщить руководителю.", "owner": "Гульмира Сериковна", "owner_type": "person", "deadline_text": "до пятницы", "deadline_type": "relative_weekday", "due_date": null, "evidence_pages": [2, 3, 4]},
+        {"id": "m1_07", "action": "Проверить датчики и защитные средства на 11 объектах, подготовив отчет по каждому.", "owner": "Нурлан Сагатович", "owner_type": "person", "deadline_text": "15 октября", "deadline_type": "date_without_year", "due_date": null, "evidence_pages": [2, 3, 4], "review_note": "Первоначальное предложение о двух неделях изменено; согласованы три недели и конкретный день без года."},
+        {"id": "m1_08", "action": "Провести дополнительное обучение безопасности газоопасных работ с проверкой знаний на всех объектах.", "owner": "Нурлан Сагатович", "owner_type": "person", "deadline_text": "на следующей неделе", "deadline_type": "relative_week_interval", "due_date": null, "evidence_pages": [3, 4]},
+        {"id": "m1_09", "action": "Совместно с Нурланом сверить затраты на безопасность с инвестиционной программой и исключить дублирование.", "owner": "Тимур Болатович", "owner_type": "person", "collaborators": ["Нурлан Сагатович"], "deadline_text": "на этой неделе", "deadline_type": "relative_week_interval", "due_date": null, "evidence_pages": [3, 4]},
+        {"id": "m1_10", "action": "Получить юридическую оценку возможности претензии к подрядчику по поверке.", "owner": "Айнур Каировна", "owner_type": "person", "deadline_text": "к среде", "deadline_type": "relative_weekday", "due_date": null, "evidence_pages": [3, 4]}
+      ],
+      "review_cases": [
+        {"case": "department_owner", "expectation": "Не назначать юридическому поручению вымышленного сотрудника."},
+        {"case": "deadline_revision", "expectation": "Не оставлять предварительные две недели как окончательный срок аудита."},
+        {"case": "conditional_action", "expectation": "Расторжение договора зависит от подтверждения систематических нарушений; не превращать его в безусловное поручение."},
+        {"case": "summary_factuality", "expectation": "Формальность инструктажей в диалоге является предположением; в саммари PDF она сформулирована категоричнее. Сохранять неопределенность."}
+      ]
+    },
+    {
+      "id": "meeting_2",
+      "pdf_filename": "Протокол_совещания№2.docx.pdf",
+      "audio_filename": "Совещание №2.mp3",
+      "pdf_pages": 4,
+      "transcript_pages": [1, 2, 3],
+      "reference_table_page": 4,
+      "audio_metadata": {"duration_seconds": 206.064, "sample_rate_hz": 48000, "channels": 1},
+      "meeting_date": null,
+      "meeting_timezone": null,
+      "pdf_text_languages": ["ru"],
+      "audio_languages_verified": false,
+      "named_speakers_in_pdf": ["Данияр Серикович", "Ботагоз Нурлановна", "Жандос Талгатович", "Ерболат Мухтарович", "Салтанат Ерболовна"],
+      "mentioned_non_speaking_assignees": ["Ерлан"],
+      "reference_summary_row_count": 6,
+      "reference_rows": [
+        {"id": "m2_01", "action": "Оформить договорную претензию за задержку поставки сырья.", "owner": "Ерлан", "owner_type": "person", "owner_role": "юрист департамента", "coordinator": "Ботагоз Нурлановна", "deadline_text": "до конца недели", "deadline_type": "relative_week_end", "due_date": null, "evidence_pages": [1, 3, 4], "review_note": "В финальном устном обобщении обе задачи адресованы Ботагоз с общим упоминанием двух недель. Сохранить конкретное раннее поручение Ерлану и показать неоднозначность пользователю."},
+        {"id": "m2_02", "action": "Подобрать резервного поставщика и получить предложение минимум на 30% объема.", "owner": "Ботагоз Нурлановна", "owner_type": "person", "deadline_text": "за две недели", "deadline_type": "relative_duration", "due_date": null, "evidence_pages": [1, 3, 4]},
+        {"id": "m2_03", "action": "Согласовать с подрядчиками промежуточные этапы сдачи документации на отдельной встрече.", "owner": "Жандос Талгатович", "owner_type": "person", "deadline_text": "на этой неделе", "deadline_type": "relative_week_interval", "due_date": null, "evidence_pages": [1, 2, 3, 4]},
+        {"id": "m2_04", "action": "Сообщить руководителю результаты переговоров с подрядчиками в краткой записке.", "owner": "Жандос Талгатович", "owner_type": "person", "deadline_text": "после совещания с подрядчиками", "deadline_type": "event_relative", "depends_on": "m2_03", "due_date": null, "evidence_pages": [2, 3, 4]},
+        {"id": "m2_05", "action": "Спланировать дополнительные учебные группы, подобрать тренера и рассчитать расходы.", "owner": "Ерболат Мухтарович", "owner_type": "person", "deadline_text": "за неделю", "deadline_type": "relative_duration", "deadline_applies_to": "подготовка сметы", "due_date": null, "evidence_pages": [2, 3, 4]},
+        {"id": "m2_06", "action": "Уведомить подрядчиков о порядке подачи счетов и внести соответствующие условия в договорный шаблон.", "owner": "Салтанат Ерболовна", "owner_type": "person", "deadline_text": null, "deadline_type": "not_specified", "due_date": null, "evidence_pages": [2, 3, 4]}
+      ],
+      "additional_dialogue_obligations": [
+        {"id": "m2_extra_01", "related_reference_row": "m2_05", "action": "Устранить очередь на переаттестацию персонала.", "owner": "Ерболат Мухтарович", "deadline_text": "за месяц", "deadline_type": "relative_duration", "due_date": null, "evidence_pages": [2], "review_note": "Отдельный конечный результат. Недельный срок в таблице относится к смете, а не ко всему обучению. Допустимо хранить как задачу или второй этап."}
+      ],
+      "review_cases": [
+        {"case": "non_speaking_owner", "expectation": "Ерлан упомянут как исполнитель, но не имеет реплик в PDF. Не приписывать ему голос без подтверждения из аудио."},
+        {"case": "missing_deadline", "expectation": "Не придумывать срок Салтанат."},
+        {"case": "contract_term_vs_task_deadline", "expectation": "Пять рабочих дней являются предлагаемым условием выставления счета подрядчиком, а не сроком поручения Салтанат."},
+        {"case": "milestone_scope", "expectation": "Различать недельный срок сметы и месячный срок устранения очереди."},
+        {"case": "event_relative_deadline", "expectation": "Для записки Жандоса сохранить зависимость от встречи без вымышленной календарной даты."}
+      ]
+    }
+  ]
+}
